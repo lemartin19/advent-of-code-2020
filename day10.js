@@ -14,14 +14,26 @@ const findDistribution = input => {
   return diffs;
 }
 
-const countArrangements = (input) => {
-  if (input.length <= 2) return 1;
+const countArrangements = input => {
+  const cache = {};
 
-  const first = input[0];
-  const rest = input.slice(1);
-  return rest.reduce((acc, newFirst, idx) => 
-    newFirst - first <= DIFF ? acc + countArrangements(rest.slice(idx)) : acc,
-  0)
+  const countArrangementsCached = idx => {
+    if (input.length - idx < 2) return 1;
+    if (cache[idx]) return cache[idx];
+  
+    const first = input[idx];
+    let sum = 0;
+    let nextIdx = idx + 1;
+    
+    while (input[nextIdx] - first <= DIFF) {
+      sum += countArrangementsCached(nextIdx);
+      nextIdx++;
+    }
+    cache[idx] = sum;
+    return sum;
+  };
+  
+  return countArrangementsCached(0);
 };
 
 const sorted = INPUT.sort((a, b) => a - b);
