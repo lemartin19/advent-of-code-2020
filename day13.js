@@ -1,5 +1,6 @@
 
 const { INPUT, TIMESTAMP } = require('./day13-input');
+const { lcm } = require('./utils');
 
 const calcEarliestTime = earliest => busId => {
   if (busId === 'x') return { busId, leavingAt: null };
@@ -19,7 +20,7 @@ const calcSequentialLeavingTime = schedule => {
   while (idx < schedule.length) {
     if (schedule[idx] === 'x') idx++;
     else if ((currTime + idx) % schedule[idx] === 0) {
-      increment *= schedule[idx];
+      increment = lcm(increment, schedule[idx]);
       idx++;
     }
     else {

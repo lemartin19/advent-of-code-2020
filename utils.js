@@ -24,7 +24,7 @@ const primeFactors = num => {
     if (isDivisbleBy(num, factor)) return [factor, ...primeFactors(num / factor)];
   }
 
-  return num;
+  return [num];
 };
 exports.primeFactors = primeFactors;
 
